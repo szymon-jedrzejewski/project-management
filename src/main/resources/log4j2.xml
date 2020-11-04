@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] %class{36} :: %M:%L - %msg%xEx%n"/>
+        </Console>
+        <File name="ApplicationLogsFile" fileName="JavaSE/logs/application.log" append="true">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] %class{36} :: %M:%L - %msg%xEx%n"/>
+        </File>
+        <File name="SecurityLogsFile" fileName="JavaSE/logs/security.log" append="true">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] %class{36} :: %M:%L - %msg%xEx%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="Application" level="trace" additivity="false">
+            <AppenderRef ref="ApplicationLogsFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="Security" level="trace" additivity="false">
+            <AppenderRef ref="SecurityLogsFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level ="trace">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
