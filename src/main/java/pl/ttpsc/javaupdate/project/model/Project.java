@@ -5,7 +5,16 @@ import pl.ttpsc.javaupdate.project.persistence.Persistable;
 public class Project implements Persistable {
     private String name;
     private String description;
-    private String creator;
+    private int creator;
+
+    public Project() {
+    }
+
+    public Project(String name, String description, int creator) {
+        this.name = name;
+        this.description = description;
+        this.creator = creator;
+    }
 
     public String getName() {
         return name;
@@ -23,11 +32,11 @@ public class Project implements Persistable {
         this.description = description;
     }
 
-    public String getCreator() {
+    public int getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(int creator) {
         this.creator = creator;
     }
 
