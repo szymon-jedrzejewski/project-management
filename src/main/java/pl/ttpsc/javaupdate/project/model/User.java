@@ -1,6 +1,8 @@
 package pl.ttpsc.javaupdate.project.model;
 
-public class User {
+import pl.ttpsc.javaupdate.project.persistence.Persistable;
+
+public class User implements Persistable {
     private String firstname;
     private String lastName;
     private String username;

@@ -1,6 +1,8 @@
 package pl.ttpsc.javaupdate.project.model;
 
-public class Document {
+import pl.ttpsc.javaupdate.project.persistence.Persistable;
+
+public class Document implements Persistable {
 
     private String title;
     private String description;
