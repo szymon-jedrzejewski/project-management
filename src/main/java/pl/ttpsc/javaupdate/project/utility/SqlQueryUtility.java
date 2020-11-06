@@ -19,7 +19,7 @@ public final class SqlQueryUtility {
         return persistable.getClass().getSimpleName().toLowerCase() + "s ";
     }
 
-    public static String getFullQuery(Persistable persistable) {
+    public static String generateInsertQuery(Persistable persistable) {
         return "INSERT INTO "
                 + SqlQueryUtility.generateTableName(persistable)
                 + "(" + SqlQueryUtility.generateFieldsNames(persistable) + ") "

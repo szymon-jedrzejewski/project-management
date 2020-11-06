@@ -26,7 +26,7 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public Persistable create(Persistable persistable) {
-        String query = SqlQueryUtility.getFullQuery(persistable);
+        String query = SqlQueryUtility.generateInsertQuery(persistable);
         logger.debug("Generated query: " + query);
 
         try {
