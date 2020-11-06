@@ -6,6 +6,8 @@ import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SqlQueryUtility {
     private static final Logger logger = LogManager.getLogger(SqlPersistenceManager.class);
@@ -26,16 +28,14 @@ public final class SqlQueryUtility {
 
     public static String generateFieldsNames(Persistable persistable) {
         Field[] fields =  persistable.getClass().getDeclaredFields();
-        StringBuilder query = new StringBuilder();
+        List<String> names = new ArrayList<>();
 
         for (Field field : fields) {
             field.setAccessible(true);
-            query.append(field.getName());
-            query.append(", ");
-            logger.debug("Actual query: " + query);
+            names.add(field.getName());
         }
 
-        return query.deleteCharAt(query.lastIndexOf(",")).toString().trim();
+        return String.join(", ", names);
     }
 
     public static String generateFieldsValues(Persistable persistable) {
