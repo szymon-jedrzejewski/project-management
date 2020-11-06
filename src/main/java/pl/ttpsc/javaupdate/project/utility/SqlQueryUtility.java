@@ -56,16 +56,16 @@ public final class SqlQueryUtility {
             try {
                 Object object = field.get(persistable);
                 logger.debug("Field value: " + object);
-                logger.debug("Integer: " + field.getType().isAssignableFrom(Integer.class));
-                if(field.getType().isAssignableFrom(String.class)) {
+                logger.debug("Integer: " + isFieldGivenType(field, "int"));
+                if(isFieldGivenType(field, "String")) {
                     query.append("'")
                             .append(object)
                             .append("'")
                             .append(", ");
-                } else if(field.getType().isAssignableFrom(Boolean.class)) {
+                } else if(isFieldGivenType(field, "boolean")) {
                     query.append(String.valueOf(object).toUpperCase())
                             .append(", ");
-                } else {
+                } else if (isFieldGivenType(field, "int")){
                     query.append(object)
                             .append(", ");
                 }
@@ -78,5 +78,9 @@ public final class SqlQueryUtility {
 
         logger.debug("Fields values: " + query);
         return query.deleteCharAt(query.lastIndexOf(",")).toString().trim();
+    }
+
+    private static boolean isFieldGivenType(Field field, String type) {
+        return field.getType().getTypeName().toLowerCase().contains(type.toLowerCase());
     }
 }
