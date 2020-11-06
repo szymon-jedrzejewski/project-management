@@ -21,7 +21,7 @@
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level ="trace">
-            <AppenderRef ref="Console" level="error"/>
+            <AppenderRef ref="Console" level="debug"/>
             <AppenderRef ref="ApplicationLogsFile"/>
             <AppenderRef ref="SecurityLogsFile"/>
         </Root>

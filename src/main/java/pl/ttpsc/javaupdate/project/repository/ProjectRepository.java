@@ -3,12 +3,14 @@ package pl.ttpsc.javaupdate.project.repository;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
+import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
+import pl.ttpsc.javaupdate.project.persistence.SearchCondition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepository {
-    private PersistenceManager persistence;
+    private final PersistenceManager persistence;
 
     public ProjectRepository(PersistenceManager persistence) {
         this.persistence = persistence;
@@ -19,8 +21,9 @@ public class ProjectRepository {
     }
 
     public List<Project> findByName(String name) {
-        // TODO
-
-        return new ArrayList<>();
+        QuerySpec qs = new QuerySpec();
+        qs.setTableName("projects");
+        qs.addCondition(new SearchCondition("name", name));
+        return (List<Project>)persistence.find(qs);
     }
 }

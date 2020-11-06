@@ -51,7 +51,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public List<Persistable> find(QuerySpec querySpec) {
+    public List<? extends Persistable> find(QuerySpec querySpec) {
         return null;
     }
 }

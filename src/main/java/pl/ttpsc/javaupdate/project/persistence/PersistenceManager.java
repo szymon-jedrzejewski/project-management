@@ -10,6 +10,6 @@ public interface PersistenceManager {
 
 	void delete(Persistable persistable);
 
-	List<Persistable> find(QuerySpec queySpec);
+	List<? extends Persistable> find(QuerySpec querySpec);
       
 }
