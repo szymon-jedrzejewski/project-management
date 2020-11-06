@@ -5,7 +5,7 @@ import pl.ttpsc.javaupdate.project.model.Project;
 import java.util.List;
 
 public interface ProjectView {
-    void display(List<Project> project);
+    void display(List<Project> projects);
     void display(Project project);
 
     String getProjectName();

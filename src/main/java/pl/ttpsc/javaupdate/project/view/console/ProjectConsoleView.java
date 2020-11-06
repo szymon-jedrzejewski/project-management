@@ -9,12 +9,15 @@ public class ProjectConsoleView implements ProjectView {
 
     @Override
     public void display(Project project) {
-
+        System.out.println(project.toString());
     }
 
     @Override
-    public void display(List<Project> project) {
-
+    public void display(List<Project> projects) {
+        for (Project project : projects) {
+            System.out.println(project.toString());
+            System.out.println();
+        }
     }
 
     @Override
