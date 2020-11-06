@@ -8,34 +8,17 @@ import java.util.Scanner;
 
 public class ConsoleMenu {
 
-    private List<Action> actions;
-    private Config config;
-
-    public ConsoleMenu() {
-    }
-
-    public ConsoleMenu(Config config) {
-        this.config = config;
-        actions = config.getActions();
-    }
-
-    //TODO remove
-    public ConsoleMenu(List<Action> actions) {
-        this.actions = actions;
-    }
-
     public int getUserChoice() {
         return new Scanner(System.in).nextInt();
     }
 
-    public void start() {
-        displayActions();
+    public Action start(List<Action> actions) {
+        displayActions(actions);
         int userChoice = getUserChoice();
-        Action action = actions.get(userChoice);
-        action.execute();
+        return actions.get(userChoice);
     }
 
-    private void displayActions() {
+    private void displayActions(List<Action> actions) {
         for (Action action : actions) {
             System.out.println(actions.indexOf(action) + "." + action.getDisplayName());
         }
