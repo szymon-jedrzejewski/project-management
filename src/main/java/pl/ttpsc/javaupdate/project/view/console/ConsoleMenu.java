@@ -16,8 +16,10 @@ public class ConsoleMenu {
 
     public ConsoleMenu(Config config) {
         this.config = config;
+        actions = config.getActions();
     }
 
+    //TODO remove
     public ConsoleMenu(List<Action> actions) {
         this.actions = actions;
     }
