@@ -3,13 +3,15 @@ package pl.ttpsc.javaupdate.project.persistence;
 public class SearchCondition {
 
     private String column;
+    private String operator;
     private Object value;
 
     public SearchCondition() {
     }
 
-    public SearchCondition(String column, Object value) {
+    public SearchCondition(String column, String operator, Object value) {
         this.column = column;
+        this.operator = operator;
         this.value = value;
     }
 
@@ -29,10 +31,19 @@ public class SearchCondition {
         this.value = value;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
     @Override
     public String toString() {
         return "SearchCondition{" +
                 "column='" + column + '\'' +
+                ", operator='" + operator + '\'' +
                 ", value=" + value +
                 '}';
     }

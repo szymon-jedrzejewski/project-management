@@ -3,6 +3,7 @@ package pl.ttpsc.javaupdate.project.utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
+import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
 import java.lang.reflect.Field;
@@ -17,6 +18,13 @@ public final class SqlQueryUtility {
 
     public static String generateTableName(Persistable persistable) {
         return persistable.getClass().getSimpleName().toLowerCase() + "s ";
+    }
+
+    public static String generateFindQuery(QuerySpec querySpec) {
+        if (querySpec.getConditions().isEmpty()) {
+            return "SELECT * FROM " + querySpec.getTableName() + ";";
+        }
+        return null;
     }
 
     public static String generateInsertQuery(Persistable persistable) {

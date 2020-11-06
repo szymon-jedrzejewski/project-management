@@ -8,6 +8,7 @@ import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.utility.SqlQueryUtility;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -52,6 +53,20 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public List<? extends Persistable> find(QuerySpec querySpec) {
+        String query = "SELECT * FROM projects WHERE name = 'Name';";
+
+        ResultSet result = null;
+        try {
+            Statement statement = connection.createStatement();
+            result = statement.executeQuery(query);
+            logger.debug("res: " + result.next());
+            while (result.next()) {
+                logger.debug("Result: " + result.getArray(1));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage());
+        }
         return null;
     }
 }
