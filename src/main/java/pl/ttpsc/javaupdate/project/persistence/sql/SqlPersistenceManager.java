@@ -52,8 +52,8 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public List<? extends Persistable> find(QuerySpec querySpec) {
-        String query = "SELECT * FROM projects WHERE name = 'Name';";
+    public List<Persistable> find(QuerySpec querySpec) {
+        String query = SqlQueryUtility.generateFindQuery(querySpec);
 
         ResultSet result = null;
         try {

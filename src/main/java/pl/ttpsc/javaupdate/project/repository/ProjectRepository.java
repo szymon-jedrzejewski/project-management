@@ -22,8 +22,9 @@ public class ProjectRepository {
 
     public List<Project> findByName(String name) {
         QuerySpec qs = new QuerySpec();
-        qs.setTableName("projects");
+        qs.setTableName(Project.class);
         qs.addCondition(new SearchCondition("name", "=", name));
-        return (List<Project>)persistence.find(qs);
+        persistence.find(qs);
+        return new ArrayList<>();
     }
 }

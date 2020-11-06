@@ -22,7 +22,7 @@ public final class SqlQueryUtility {
 
     public static String generateFindQuery(QuerySpec querySpec) {
         if (querySpec.getConditions().isEmpty()) {
-            return "SELECT * FROM " + querySpec.getTableName() + ";";
+            return "SELECT * FROM " + querySpec.getTableName();
         }
         return null;
     }
@@ -55,17 +55,18 @@ public final class SqlQueryUtility {
             logger.debug("Field type: " + field.getType());
             try {
                 Object object = field.get(persistable);
+                String fieldTypeName = field.getType().getTypeName();
                 logger.debug("Field value: " + object);
-                logger.debug("Integer: " + isFieldGivenType(field, "int"));
-                if(isFieldGivenType(field, "String")) {
+                logger.debug("Integer: " + isFieldGivenType(fieldTypeName, "int"));
+                if(isFieldGivenType(fieldTypeName, "String")) {
                     query.append("'")
                             .append(object)
                             .append("'")
                             .append(", ");
-                } else if(isFieldGivenType(field, "boolean")) {
+                } else if(isFieldGivenType(fieldTypeName, "boolean")) {
                     query.append(String.valueOf(object).toUpperCase())
                             .append(", ");
-                } else if (isFieldGivenType(field, "int")){
+                } else if (isFieldGivenType(fieldTypeName, "int")){
                     query.append(object)
                             .append(", ");
                 }
@@ -80,7 +81,7 @@ public final class SqlQueryUtility {
         return query.deleteCharAt(query.lastIndexOf(",")).toString().trim();
     }
 
-    private static boolean isFieldGivenType(Field field, String type) {
-        return field.getType().getTypeName().toLowerCase().contains(type.toLowerCase());
+    private static boolean isFieldGivenType(String fieldType, String type) {
+        return fieldType.toLowerCase().contains(type.toLowerCase());
     }
 }

@@ -4,17 +4,17 @@ import java.util.List;
 
 public class QuerySpec {
 
-    private String tableName;
+    private Class<?> tableName;
     private List<SearchCondition> conditions;
 
     public QuerySpec() {
     }
 
-    public String getTableName() {
+    public Class<?> getTableName() {
         return tableName;
     }
 
-    public void setTableName(String tableName) {
+    public void setTableName(Class<?> tableName) {
         this.tableName = tableName;
     }
 
