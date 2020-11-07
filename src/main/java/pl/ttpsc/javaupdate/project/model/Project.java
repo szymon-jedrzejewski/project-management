@@ -46,6 +46,7 @@ public class Project implements Persistable {
     @Override
     public String toString() {
         return "Project{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", creator='" + creator + '\'' +

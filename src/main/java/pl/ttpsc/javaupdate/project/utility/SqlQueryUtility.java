@@ -21,10 +21,11 @@ public final class SqlQueryUtility {
     }
 
     public static String generateFindQuery(QuerySpec querySpec) {
-        if (querySpec.getConditions().isEmpty()) {
+        String query = "SELECT * FROM " + querySpec.getTableName().getSimpleName().toLowerCase();
+        if (!querySpec.getConditions().isEmpty()) {
             return "SELECT * FROM " + querySpec.getTableName();
         }
-        return null;
+        return query + ";";
     }
 
     public static String generateInsertQuery(Persistable persistable) {
