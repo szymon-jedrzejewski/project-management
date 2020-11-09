@@ -16,7 +16,7 @@ public final class SqlQueryUtility {
     private SqlQueryUtility() {
     }
 
-    public static String generateTableName(Persistable persistable) {
+    public static String extractTableName(Persistable persistable) {
         return persistable.getClass().getSimpleName().toLowerCase() + "s ";
     }
 
@@ -33,12 +33,12 @@ public final class SqlQueryUtility {
 
     public static String generateInsertQuery(Persistable persistable) {
         return "INSERT INTO "
-                + SqlQueryUtility.generateTableName(persistable)
-                + "(" + SqlQueryUtility.generateFieldsNames(persistable) + ") "
-                + "VALUES (" + SqlQueryUtility.generateFieldsValues(persistable) + ");";
+                + SqlQueryUtility.extractTableName(persistable)
+                + "(" + SqlQueryUtility.extractFieldsNames(persistable) + ") "
+                + "VALUES (" + SqlQueryUtility.extractFieldsValues(persistable) + ");";
     }
 
-    public static String generateFieldsNames(Persistable persistable) {
+    public static String extractFieldsNames(Persistable persistable) {
         Field[] fields =  persistable.getClass().getDeclaredFields();
         List<String> names = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public final class SqlQueryUtility {
         return String.join(", ", names);
     }
 
-    public static String generateFieldsValues(Persistable persistable) {
+    public static String extractFieldsValues(Persistable persistable) {
         Field[] fields =  persistable.getClass().getDeclaredFields();
         StringBuilder query = new StringBuilder();
 
