@@ -8,7 +8,6 @@ import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.console.ConsoleMenu;
 import pl.ttpsc.javaupdate.project.view.console.ProjectConsoleView;
-import pl.ttpsc.javaupdate.project.view.console.ProjectCreateView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -36,7 +35,7 @@ public class ConsoleApplication {
             connection = DriverManager.getConnection(url, login, password);
             List<Action> actions = new ArrayList<>();
             actions.add(new ShowProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
-            actions.add(new CreateProjectAction(new ProjectCreateView(), new ProjectRepository(new SqlPersistenceManager(connection))));
+            actions.add(new CreateProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             menu.choseAction(actions).execute();
 
         } catch (SQLException throwables) {

@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface ProjectView {
     void display(List<Project> projects);
+
     void display(Project project);
 
-    String getProjectName();
+    String getString(String msg);
+
+    void info(String msg);
+
+    void error(String msg);
 }

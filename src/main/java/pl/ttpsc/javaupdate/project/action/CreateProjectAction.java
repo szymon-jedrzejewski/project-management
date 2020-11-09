@@ -4,17 +4,17 @@ import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
-import pl.ttpsc.javaupdate.project.view.console.ProjectCreateView;
+import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.Collections;
 import java.util.List;
 
-public class CreateProjectAction implements Action{
+public class CreateProjectAction implements Action {
 
-    private ProjectCreateView view;
+    private ProjectView view;
     private ProjectRepository repository;
 
-    public CreateProjectAction(ProjectCreateView view, ProjectRepository repository) {
+    public CreateProjectAction(ProjectView view, ProjectRepository repository) {
         this.view = view;
         this.repository = repository;
     }
@@ -25,14 +25,17 @@ public class CreateProjectAction implements Action{
     }
 
     @Override
-    public void execute(){
-        Project project = new Project(view.getId(), view.getName(), view.getDescription(), view.getCreator());
+    public void execute() {
         try {
-            repository.create(project);
+            Project project = repository.create(new Project(Integer.parseInt(view.getString("Enter id: ")),
+                    view.getString("Enter name: "),
+                    view.getString("Enter description: "),
+                    Integer.parseInt(view.getString("Enter creator: "))));
+
+            view.info("Project successfully created. Project id is: " + project.getId());
         } catch (ProjectRepositoryException e) {
-            e.printStackTrace();
+            view.error("There was an error while adding project");
         }
-        view.display(project);
     }
 
     @Override

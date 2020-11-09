@@ -27,8 +27,18 @@ public class ProjectConsoleView implements ProjectView {
     }
 
     @Override
-    public String getProjectName() {
-        System.out.print("Please enter project name you are looking for: ");
+    public String getString(String msg) {
+        System.out.print(msg);
         return new Scanner(System.in).next();
+    }
+
+    @Override
+    public void info(String msg) {
+        System.out.println(msg);
+    }
+
+    @Override
+    public void error(String msg) {
+        System.out.println(msg);
     }
 }

@@ -12,34 +12,34 @@ import java.util.List;
 
 public class ShowProjectsAction implements Action {
 
-	private ProjectView view;
-	private ProjectRepository repository;
+    private ProjectView view;
+    private ProjectRepository repository;
 
-	public ShowProjectsAction(ProjectView view, ProjectRepository repository) {
-		this.view = view;
-		this.repository = repository;
-	}
+    public ShowProjectsAction(ProjectView view, ProjectRepository repository) {
+        this.view = view;
+        this.repository = repository;
+    }
 
-	@Override
-	public void execute() {
-		String projectName = view.getProjectName();
-		List<Project> projects = null;
-		try {
-			projects = repository.findByName(projectName);
-		} catch (ProjectRepositoryException e) {
-			e.printStackTrace();
-		}
-		view.display(projects);
-	}
+    @Override
+    public void execute() {
+        String projectName = view.getString("Please enter project name: ");
+        List<Project> projects = null;
+        try {
+            projects = repository.findByName(projectName);
+        } catch (ProjectRepositoryException e) {
+            e.printStackTrace();
+        }
+        view.display(projects);
+    }
 
-	@Override
-	public List<Role> getAllowedRoles() {
-		return Arrays.asList(Role.ENGINEER, Role.MANAGER);
-	}
+    @Override
+    public List<Role> getAllowedRoles() {
+        return Arrays.asList(Role.ENGINEER, Role.MANAGER);
+    }
 
-	@Override
-	public String getDisplayName() {
-		return "Show Projects";
-	}
+    @Override
+    public String getDisplayName() {
+        return "Show Projects";
+    }
 
 }
