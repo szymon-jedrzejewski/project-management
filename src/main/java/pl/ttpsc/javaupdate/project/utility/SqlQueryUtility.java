@@ -21,11 +21,14 @@ public final class SqlQueryUtility {
     }
 
     public static String generateFindQuery(QuerySpec querySpec) {
-        String query = "SELECT * FROM " + querySpec.getTableName().getSimpleName().toLowerCase();
-        if (!querySpec.getConditions().isEmpty()) {
-            return "SELECT * FROM " + querySpec.getTableName();
+        String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
+        if (querySpec.getQuery() == null || querySpec.getQuery().isEmpty()) {
+            logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
+            return  "SELECT * FROM " + tableName + "s;";
         }
-        return query + ";";
+
+        logger.debug("SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";");
+        return "SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";";
     }
 
     public static String generateInsertQuery(Persistable persistable) {

@@ -3,6 +3,7 @@ package pl.ttpsc.javaupdate.project.persistence;
 public class SearchCondition {
 
     private String column;
+    //TODO replace string operator with enum
     private String operator;
     private Object value;
 
