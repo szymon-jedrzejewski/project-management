@@ -1,7 +1,6 @@
 package pl.ttpsc.javaupdate.project.view.console;
 
 import pl.ttpsc.javaupdate.project.action.Action;
-import pl.ttpsc.javaupdate.project.config.Config;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +11,7 @@ public class ConsoleMenu {
         return new Scanner(System.in).nextInt();
     }
 
-    public Action start(List<Action> actions) {
+    public Action choseAction(List<Action> actions) {
         displayActions(actions);
         int userChoice = getUserChoice();
         return actions.get(userChoice);
