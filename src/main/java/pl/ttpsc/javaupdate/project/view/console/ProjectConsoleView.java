@@ -4,20 +4,11 @@ import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ProjectConsoleView implements ProjectView {
 
-    private String projectName;
-
     public ProjectConsoleView() {
-    }
-
-    public ProjectConsoleView(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     @Override
@@ -37,6 +28,7 @@ public class ProjectConsoleView implements ProjectView {
 
     @Override
     public String getProjectName() {
-        return projectName;
+        System.out.print("Please enter project name you are looking for: ");
+        return new Scanner(System.in).next();
     }
 }
