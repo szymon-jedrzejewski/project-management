@@ -1,5 +1,6 @@
 package pl.ttpsc.javaupdate.project.action;
 
+import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
@@ -24,9 +25,13 @@ public class CreateProjectAction implements Action{
     }
 
     @Override
-    public void execute() {
+    public void execute(){
         Project project = new Project(view.getId(), view.getName(), view.getDescription(), view.getCreator());
-        repository.create(project);
+        try {
+            repository.create(project);
+        } catch (ProjectRepositoryException e) {
+            e.printStackTrace();
+        }
         view.display(project);
     }
 

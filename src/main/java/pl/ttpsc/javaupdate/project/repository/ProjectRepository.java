@@ -2,6 +2,8 @@ package pl.ttpsc.javaupdate.project.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
+import pl.ttpsc.javaupdate.project.exception.SqlPersistenceManagerException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
@@ -21,21 +23,32 @@ public class ProjectRepository {
         this.persistence = persistence;
     }
 
-    public Project create(Project project) {
-        return (Project)persistence.create(project);
+    public Project create(Project project) throws ProjectRepositoryException {
+        try {
+            return (Project)persistence.create(project);
+        } catch (SqlPersistenceManagerException e) {
+            logger.error("SqlPersistenceManagerException: " + e.getMessage());
+        }
+        throw new ProjectRepositoryException();
     }
 
-    public List<Project> findByName(String name) {
+    public List<Project> findByName(String name) throws ProjectRepositoryException {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
+        List<Project> projects = new ArrayList<>();
+
         //TODO replace string operator with enum
         qs.appendWhere(new SearchCondition("name", "=", "'" + name + "'"));
         logger.debug("Append query: " + qs.getQuery());
-        List<Persistable> persistables = persistence.find(qs);
-        logger.debug("Project list: " + persistables.toString());
-
-        List<Project> projects = new ArrayList<>();
-        persistables.forEach(p -> projects.add((Project)p));
-        return projects;
+        List<Persistable> persistables = null;
+        try {
+            persistables = persistence.find(qs);
+            logger.debug("Project list: " + persistables.toString());
+            persistables.forEach(p -> projects.add((Project)p));
+            return projects;
+        } catch (SqlPersistenceManagerException e) {
+            logger.error("SqlPersistenceManagerException: " + e.getMessage());
+        }
+        throw new ProjectRepositoryException();
     }
 }

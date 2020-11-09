@@ -2,6 +2,7 @@ package pl.ttpsc.javaupdate.project.persistence.sql;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.ttpsc.javaupdate.project.exception.SqlPersistenceManagerException;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
@@ -30,7 +31,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public Persistable create(Persistable persistable) {
+    public Persistable create(Persistable persistable) throws SqlPersistenceManagerException{
         String query = SqlQueryUtility.generateInsertQuery(persistable);
         logger.debug("Generated query: " + query);
 
@@ -38,11 +39,11 @@ public class SqlPersistenceManager implements PersistenceManager {
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
             connection.close();
+            return null;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
         }
-
-        return null;
+        throw new SqlPersistenceManagerException();
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public List<Persistable> find(QuerySpec querySpec) {
+    public List<Persistable> find(QuerySpec querySpec) throws SqlPersistenceManagerException {
         String query = SqlQueryUtility.generateFindQuery(querySpec);
         logger.debug("Find query manager: " + query);
         List<Persistable> persistables = new ArrayList<>();
@@ -86,13 +87,14 @@ public class SqlPersistenceManager implements PersistenceManager {
             }
 
             connection.close();
+            logger.debug("Persistables: " + persistables.toString());
+            logger.debug("Persistables size: " + persistables.size());
+            return persistables;
         } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
             logger.error("SQLException: " + e.getMessage());
         }
 
-        logger.debug("Persistables: " + persistables.toString());
-        logger.debug("Persistables size: " + persistables.size());
-        return persistables;
+        throw new SqlPersistenceManagerException();
     }
 }
