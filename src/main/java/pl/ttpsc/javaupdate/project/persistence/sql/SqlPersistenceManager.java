@@ -57,32 +57,38 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public List<Persistable> find(QuerySpec querySpec) {
-        String query = SqlQueryUtility.generateFindQuery(querySpec);
+//        String query = SqlQueryUtility.generateFindQuery(querySpec);
+        String query = "SELECT * FROM projects";
         List<Persistable> persistables = new ArrayList<>();
 
         ResultSet result = null;
         try {
-            Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructors()[1];
+            Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
             Statement statement = connection.createStatement();
             result = statement.executeQuery(query);
 
-            logger.debug("res: " + result.next());
             while (result.next()) {
-
-                Field[] fields = query.getClass().getDeclaredFields();
+                Persistable persistable = (Persistable)constructor.newInstance();
+                logger.debug("Created object: " + persistable);
+                Field[] fields = persistable.getClass().getDeclaredFields();
 
                 for (Field field : fields) {
-                    result.getObject(field.getName());
+                    field.setAccessible(true);
+                    logger.debug("Column name: " + field.getName());
+                    logger.debug("Value: " + result.getObject(field.getName()));
+                    field.set(persistable, result.getObject(field.getName()));
                 }
-                Persistable persistable = (Persistable)constructor.newInstance();
 
-                logger.debug("Result: " + result.getArray(1));
+                persistables.add(persistable);
+                logger.debug("Persistable: " + persistable.toString());
 
             }
             connection.close();
-        } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error("SQLException: " + e.getMessage());
         }
+        logger.debug("Persistables: " + persistables.toString());
+        logger.debug("Persistables size: " + persistables.size());
         return persistables;
     }
 }

@@ -42,6 +42,9 @@ public class Project implements Persistable {
         this.creator = creator;
     }
 
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
