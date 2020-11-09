@@ -23,8 +23,11 @@ public class ProjectRepository {
     public List<Project> findByName(String name) {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
+        //TODO replace string operator with enum
         qs.addCondition(new SearchCondition("name", "=", name));
-        persistence.find(qs);
-        return new ArrayList<>();
+        List<Persistable> persistables = persistence.find(qs);
+        List<Project> projects = new ArrayList<>();
+        persistables.forEach(p -> projects.add((Project)p));
+        return projects;
     }
 }
