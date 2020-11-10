@@ -2,6 +2,7 @@ package pl.ttpsc.javaupdate.project;
 
 import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.action.CreateProjectAction;
+import pl.ttpsc.javaupdate.project.action.ShowAllProjectsAction;
 import pl.ttpsc.javaupdate.project.action.ShowProjectsAction;
 import pl.ttpsc.javaupdate.project.config.Config;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
@@ -34,6 +35,7 @@ public class ConsoleApplication {
         try {
             connection = DriverManager.getConnection(url, login, password);
             List<Action> actions = new ArrayList<>();
+            actions.add(new ShowAllProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new ShowProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new CreateProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             menu.choseAction(actions).execute();

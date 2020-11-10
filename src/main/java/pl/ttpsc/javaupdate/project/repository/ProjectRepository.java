@@ -51,4 +51,18 @@ public class ProjectRepository {
         }
         throw new ProjectRepositoryException();
     }
+
+    public List<Project> findAll() throws PersistenceManagerException{
+        QuerySpec qs = new QuerySpec(Project.class);
+        try {
+            return persistence
+                    .find(qs)
+                    .stream()
+                    .map(persistable -> (Project) persistable)
+                    .collect(Collectors.toList());
+        } catch (PersistenceManagerException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+        throw new PersistenceManagerException();
+    }
 }

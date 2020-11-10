@@ -23,6 +23,7 @@ public class ProjectConsoleView implements ProjectView {
             System.out.println("Name: " + project.getName());
             System.out.println("Description: " + project.getDescription());
             System.out.println("Creator: " + project.getCreator());
+            System.out.println();
         }
     }
 
