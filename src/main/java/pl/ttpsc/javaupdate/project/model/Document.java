@@ -4,21 +4,42 @@ import pl.ttpsc.javaupdate.project.persistence.Persistable;
 
 public class Document implements Persistable {
 
+    private int id;
     private String title;
     private String description;
-    private User creator;
     private String topic;
     private String content;
+    private int creator;
+    private int project;
 
     public Document() {
     }
 
-    public Document(String title, String description, User creator, String topic, String content) {
+    public Document(String title, String description, String topic, String content, int creator, int project) {
         this.title = title;
         this.description = description;
-        this.creator = creator;
         this.topic = topic;
         this.content = content;
+        this.creator = creator;
+        this.project = project;
+    }
+
+    public Document(int id, String title, String description, String topic, String content, int creator, int project) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.topic = topic;
+        this.content = content;
+        this.creator = creator;
+        this.project = project;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -37,14 +58,6 @@ public class Document implements Persistable {
         this.description = description;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
     public String getTopic() {
         return topic;
     }
@@ -61,14 +74,32 @@ public class Document implements Persistable {
         this.content = content;
     }
 
+    public int getCreator() {
+        return creator;
+    }
+
+    public void setCreator(int creator) {
+        this.creator = creator;
+    }
+
+    public int getProject() {
+        return project;
+    }
+
+    public void setProject(int project) {
+        this.project = project;
+    }
+
     @Override
     public String toString() {
         return "Document{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", creator=" + creator +
                 ", topic='" + topic + '\'' +
                 ", content='" + content + '\'' +
+                ", creator=" + creator +
+                ", project=" + project +
                 '}';
     }
 }

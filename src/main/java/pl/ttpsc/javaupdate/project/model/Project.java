@@ -3,6 +3,7 @@ package pl.ttpsc.javaupdate.project.model;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 
 public class Project implements Persistable {
+
     private int id;
     private String name;
     private String description;
