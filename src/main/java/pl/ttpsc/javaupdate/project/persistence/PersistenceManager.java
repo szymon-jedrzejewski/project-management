@@ -10,7 +10,7 @@ public interface PersistenceManager {
 	
 	void update(Persistable persistable) throws PersistenceManagerException;
 
-	void delete(Persistable persistable) throws PersistenceManagerException;
+	void delete(QuerySpec querySpec) throws PersistenceManagerException;
 
 	List<Persistable> find(QuerySpec querySpec) throws PersistenceManagerException;
       

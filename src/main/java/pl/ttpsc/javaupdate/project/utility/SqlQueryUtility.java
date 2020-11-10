@@ -92,4 +92,9 @@ public final class SqlQueryUtility {
     private static boolean isFieldGivenType(String fieldType, String type) {
         return fieldType.toLowerCase().contains(type.toLowerCase());
     }
+
+    public static String generateDeleteQuery(QuerySpec qs){
+        logger.debug("Delete Query: " +"DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + qs.getQuery());
+        return "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + qs.getQuery();
+    }
 }

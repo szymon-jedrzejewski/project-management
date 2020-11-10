@@ -52,22 +52,34 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public void delete(Persistable persistable) {
-
+    public void delete(QuerySpec qs) {
+        try {
+            String query = SqlQueryUtility.generateDeleteQuery(qs);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Persistable> find(QuerySpec querySpec) throws PersistenceManagerException {
-        String query = SqlQueryUtility.generateFindQuery(querySpec);
-        logger.debug("Find query manager: " + query);
-        List<Persistable> persistables = new ArrayList<>();
-        ResultSet result = null;
+
 
         try {
+            String query = SqlQueryUtility.generateFindQuery(querySpec);
+            logger.debug("Find query manager: " + query);
+
+            List<Persistable> persistables = new ArrayList<>();
 
             Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
+
             Statement statement = connection.createStatement();
-            result = statement.executeQuery(query);
+
+            ResultSet result = statement.executeQuery(query);
+
 
             while (result.next()) {
 

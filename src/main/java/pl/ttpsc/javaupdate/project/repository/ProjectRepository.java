@@ -32,6 +32,27 @@ public class ProjectRepository {
         throw new ProjectRepositoryException();
     }
 
+    public void delete(int id) {
+        try {
+            QuerySpec qs = new QuerySpec(Project.class);
+            qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
+            persistence.delete(qs);
+        } catch (PersistenceManagerException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+    }
+
+    public Project findById(int id) throws PersistenceManagerException{
+        try {
+            QuerySpec qs = new QuerySpec(Project.class);
+            qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
+            return (Project)persistence.find(qs).get(0);
+        } catch (PersistenceManagerException e) {
+            e.printStackTrace();
+        }
+        throw new PersistenceManagerException();
+    }
+
     public List<Project> findByName(String name) throws ProjectRepositoryException {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
@@ -52,7 +73,7 @@ public class ProjectRepository {
         throw new ProjectRepositoryException();
     }
 
-    public List<Project> findAll() throws PersistenceManagerException{
+    public List<Project> findAll() throws PersistenceManagerException {
         QuerySpec qs = new QuerySpec(Project.class);
         try {
             return persistence
