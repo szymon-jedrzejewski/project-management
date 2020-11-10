@@ -11,7 +11,13 @@ public class Project implements Persistable {
     public Project() {
     }
 
-    public Project(int id,String name, String description, int creator) {
+    public Project(String name, String description, int creator) {
+        this.name = name;
+        this.description = description;
+        this.creator = creator;
+    }
+
+    public Project(int id, String name, String description, int creator) {
         this.id = id;
         this.name = name;
         this.description = description;

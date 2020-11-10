@@ -24,7 +24,7 @@ public final class SqlQueryUtility {
         String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
         if (querySpec.getQuery() == null || querySpec.getQuery().isEmpty()) {
             logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
-            return  "SELECT * FROM " + tableName + "s;";
+            return "SELECT * FROM " + tableName + "s;";
         }
 
         logger.debug("SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";");
@@ -39,45 +39,49 @@ public final class SqlQueryUtility {
     }
 
     public static String extractFieldsNames(Persistable persistable) {
-        Field[] fields =  persistable.getClass().getDeclaredFields();
+        Field[] fields = persistable.getClass().getDeclaredFields();
         List<String> names = new ArrayList<>();
 
         for (Field field : fields) {
             field.setAccessible(true);
-            names.add(field.getName());
+            if (!field.getName().equals("id")) {
+                names.add(field.getName().toLowerCase());
+            }
         }
 
         return String.join(", ", names);
     }
 
     public static String extractFieldsValues(Persistable persistable) {
-        Field[] fields =  persistable.getClass().getDeclaredFields();
+        Field[] fields = persistable.getClass().getDeclaredFields();
         StringBuilder query = new StringBuilder();
 
-        for(Field field : fields) {
+        for (Field field : fields) {
             field.setAccessible(true);
             logger.debug("Field type: " + field.getType());
-            try {
-                Object object = field.get(persistable);
-                String fieldTypeName = field.getType().getTypeName();
-                logger.debug("Field value: " + object);
-                logger.debug("Integer: " + isFieldGivenType(fieldTypeName, "int"));
-                if(isFieldGivenType(fieldTypeName, "String")) {
-                    query.append("'")
-                            .append(object)
-                            .append("'")
-                            .append(", ");
-                } else if(isFieldGivenType(fieldTypeName, "boolean")) {
-                    query.append(String.valueOf(object).toUpperCase())
-                            .append(", ");
-                } else if (isFieldGivenType(fieldTypeName, "int")){
-                    query.append(object)
-                            .append(", ");
-                }
+            if (!field.getName().equals("id")) {
+                try {
+                    Object object = field.get(persistable);
+                    String fieldTypeName = field.getType().getTypeName();
+                    logger.debug("Field value: " + object);
+                    logger.debug("Integer: " + isFieldGivenType(fieldTypeName, "int"));
+                    if (isFieldGivenType(fieldTypeName, "String")) {
+                        query.append("'")
+                                .append(object)
+                                .append("'")
+                                .append(", ");
+                    } else if (isFieldGivenType(fieldTypeName, "boolean")) {
+                        query.append(String.valueOf(object).toUpperCase())
+                                .append(", ");
+                    } else if (isFieldGivenType(fieldTypeName, "int")) {
+                        query.append(object)
+                                .append(", ");
+                    }
 
-            } catch (IllegalAccessException e) {
-                logger.error("Field not found");
-                logger.error(e.getMessage());
+                } catch (IllegalAccessException e) {
+                    logger.error("Field not found");
+                    logger.error(e.getMessage());
+                }
             }
         }
 
