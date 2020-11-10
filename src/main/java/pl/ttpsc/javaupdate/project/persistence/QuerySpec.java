@@ -41,7 +41,7 @@ public class QuerySpec {
             query = "WHERE " + query;
         }
         query += searchCondition.getColumn()
-                + searchCondition.getOperator()
+                + searchCondition.getOperator().toString()
                 + searchCondition.getValue();
     }
 

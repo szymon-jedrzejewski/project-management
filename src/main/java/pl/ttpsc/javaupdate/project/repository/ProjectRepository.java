@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.PersistenceManagerException;
 import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
+import pl.ttpsc.javaupdate.project.persistence.Operator;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.persistence.SearchCondition;
@@ -35,8 +36,7 @@ public class ProjectRepository {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
 
-        //TODO replace string operator with enum
-        qs.appendWhere(new SearchCondition("name", "=", "'" + name + "'"));
+        qs.appendWhere(new SearchCondition("name", Operator.EQUAL_TO, "'" + name + "'"));
         logger.debug("Append query: " + qs.getQuery());
 
         try {

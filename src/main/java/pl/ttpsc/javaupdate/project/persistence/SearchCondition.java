@@ -3,14 +3,13 @@ package pl.ttpsc.javaupdate.project.persistence;
 public class SearchCondition {
 
     private String column;
-    //TODO replace string operator with enum
-    private String operator;
+    private Operator operator;
     private Object value;
 
     public SearchCondition() {
     }
 
-    public SearchCondition(String column, String operator, Object value) {
+    public SearchCondition(String column, Operator operator, Object value) {
         this.column = column;
         this.operator = operator;
         this.value = value;
@@ -32,11 +31,11 @@ public class SearchCondition {
         this.value = value;
     }
 
-    public String getOperator() {
+    public Operator getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
+    public void setOperator(Operator operator) {
         this.operator = operator;
     }
 
