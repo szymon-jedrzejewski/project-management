@@ -1,22 +1,22 @@
 package pl.ttpsc.javaupdate.project.model;
 
-public class Policies {
+public class Assignment {
 
     private int id;
     private int userId;
     private int projectId;
     private Role role;
 
-    public Policies() {
+    public Assignment() {
     }
 
-    public Policies(int userId, int projectId, Role role) {
+    public Assignment(int userId, int projectId, Role role) {
         this.userId = userId;
         this.projectId = projectId;
         this.role = role;
     }
 
-    public Policies(int id, int userId, int projectId, Role role) {
+    public Assignment(int id, int userId, int projectId, Role role) {
         this.id = id;
         this.userId = userId;
         this.projectId = projectId;

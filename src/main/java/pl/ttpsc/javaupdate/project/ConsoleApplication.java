@@ -1,5 +1,7 @@
 package pl.ttpsc.javaupdate.project;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.action.*;
 import pl.ttpsc.javaupdate.project.config.Config;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsoleApplication {
+    private static final Logger logger = LogManager.getLogger(SqlPersistenceManager.class);
 
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
         Config config = new Config()
@@ -36,10 +39,12 @@ public class ConsoleApplication {
             actions.add(new ShowProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new CreateProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new DeleteProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
-            menu.choseAction(actions).execute();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Action action = menu.choseAction(actions);
+            action.execute();
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage());
+            System.out.println("Application start failed.");
         }
     }
 }

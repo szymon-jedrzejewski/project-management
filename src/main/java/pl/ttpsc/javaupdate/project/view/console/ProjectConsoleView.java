@@ -28,8 +28,8 @@ public class ProjectConsoleView implements ProjectView {
     }
 
     @Override
-    public String getString(String msg) {
-        System.out.print(msg);
+    public String getString(String message) {
+        System.out.print(message);
         return new Scanner(System.in).nextLine();
     }
 

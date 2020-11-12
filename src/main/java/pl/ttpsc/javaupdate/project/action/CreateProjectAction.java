@@ -33,7 +33,7 @@ public class CreateProjectAction implements Action {
 
             view.info("Project successfully created. Project id is: ");
         } catch (ProjectRepositoryException e) {
-            view.error("There was an error while adding project");
+            view.error("There was an error while adding project - project name already exists.");
         }
     }
 

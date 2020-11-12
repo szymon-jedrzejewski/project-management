@@ -2,7 +2,7 @@ package pl.ttpsc.javaupdate.project.persistence.sql;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.ttpsc.javaupdate.project.exception.PersistenceManagerException;
+import pl.ttpsc.javaupdate.project.exception.PersistenceException;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
@@ -28,7 +28,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public Persistable create(Persistable persistable) throws PersistenceManagerException {
+    public Persistable create(Persistable persistable) throws PersistenceException {
         String query = SqlQueryUtility.createQueryOf(persistable);
         logger.debug("Generated query: " + query);
 
@@ -40,7 +40,7 @@ public class SqlPersistenceManager implements PersistenceManager {
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
         }
-        throw new PersistenceManagerException();
+        throw new PersistenceException();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public List<Persistable> find(QuerySpec querySpec) throws PersistenceManagerException {
+    public List<Persistable> find(QuerySpec querySpec) throws PersistenceException {
 
 
         try {
@@ -99,6 +99,6 @@ public class SqlPersistenceManager implements PersistenceManager {
             logger.error("SQLException: " + e.getMessage());
         }
 
-        throw new PersistenceManagerException();
+        throw new PersistenceException();
     }
 }

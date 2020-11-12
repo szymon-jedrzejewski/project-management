@@ -2,19 +2,21 @@ package pl.ttpsc.javaupdate.project.model;
 
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 
+import java.util.Arrays;
+
 public class User implements Persistable {
 
     private int id;
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
+    private Character[] password;
     private boolean isAdmin;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String password, boolean isAdmin) {
+    public User(String firstName, String lastName, String username, Character[] password, boolean isAdmin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -22,7 +24,7 @@ public class User implements Persistable {
         this.isAdmin = isAdmin;
     }
 
-    public User(int id, String firstName, String lastName, String username, String password, boolean isAdmin) {
+    public User(int id, String firstName, String lastName, String username, Character[] password, boolean isAdmin) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,11 +65,11 @@ public class User implements Persistable {
         this.username = username;
     }
 
-    public String getPassword() {
+    public Character[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Character[] password) {
         this.password = password;
     }
 
@@ -86,7 +88,7 @@ public class User implements Persistable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + Arrays.toString(password) + '\'' +
                 ", isAdmin=" + isAdmin +
                 '}';
     }

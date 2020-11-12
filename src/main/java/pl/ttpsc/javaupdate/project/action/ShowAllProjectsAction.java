@@ -1,6 +1,6 @@
 package pl.ttpsc.javaupdate.project.action;
 
-import pl.ttpsc.javaupdate.project.exception.PersistenceManagerException;
+import pl.ttpsc.javaupdate.project.exception.PersistenceException;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
@@ -27,7 +27,7 @@ public class ShowAllProjectsAction implements Action {
     public void execute() {
         try {
             view.display(repository.findAll());
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             view.error("Cannot find projects");
         }
     }

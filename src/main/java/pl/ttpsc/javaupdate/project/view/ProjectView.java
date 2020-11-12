@@ -9,7 +9,7 @@ public interface ProjectView {
 
     void display(Project project);
 
-    String getString(String msg);
+    String getString(String message);
 
     void info(String msg);
 

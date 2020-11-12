@@ -2,7 +2,7 @@ package pl.ttpsc.javaupdate.project.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.ttpsc.javaupdate.project.exception.PersistenceManagerException;
+import pl.ttpsc.javaupdate.project.exception.PersistenceException;
 import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.persistence.*;
@@ -23,7 +23,7 @@ public class ProjectRepository {
     public Project create(Project project) throws ProjectRepositoryException {
         try {
             return (Project) persistence.create(project);
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
         throw new ProjectRepositoryException();
@@ -34,7 +34,7 @@ public class ProjectRepository {
             QuerySpec qs = new QuerySpec(Project.class);
             qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
             persistence.delete(qs);
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
     }
@@ -45,7 +45,7 @@ public class ProjectRepository {
             QuerySpec qs = new QuerySpec(Project.class);
             qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
             return (Project)persistence.find(qs).get(FIRST_PROJECT);
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
         throw new ProjectRepositoryException();
@@ -66,13 +66,13 @@ public class ProjectRepository {
                     .map(persistable -> (Project) persistable)
                     .collect(Collectors.toList());
 
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
         throw new ProjectRepositoryException();
     }
 
-    public List<Project> findAll() throws PersistenceManagerException {
+    public List<Project> findAll() throws PersistenceException {
         QuerySpec qs = new QuerySpec(Project.class);
         try {
             return persistence
@@ -80,9 +80,9 @@ public class ProjectRepository {
                     .stream()
                     .map(persistable -> (Project) persistable)
                     .collect(Collectors.toList());
-        } catch (PersistenceManagerException e) {
+        } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
-        throw new PersistenceManagerException();
+        throw new PersistenceException();
     }
 }
