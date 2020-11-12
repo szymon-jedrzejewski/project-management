@@ -18,13 +18,13 @@ public final class SqlQueryUtility {
 
     public static String createQueryOf(QuerySpec querySpec) {
         String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
-        if (querySpec.getQuery() == null || querySpec.getQuery().isEmpty()) {
+        if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
             logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
             return "SELECT * FROM " + tableName + "s;";
         }
 
-        logger.debug("SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";");
-        return "SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";";
+        logger.debug("SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";");
+        return "SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";";
     }
 
     public static String createQueryOf(Persistable persistable) {
@@ -92,8 +92,26 @@ public final class SqlQueryUtility {
         return fieldType.toLowerCase().contains(type.toLowerCase());
     }
 
-    public static String generateDeleteQuery(QuerySpec qs){
-        logger.debug("Delete Query: " +"DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + qs.getQuery());
-        return "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + qs.getQuery();
+    public static String generateDeleteQuery(QuerySpec qs) {
+        logger.debug("Delete Query: " +
+                "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + querySpecToSql(qs));
+        return "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + querySpecToSql(qs);
+    }
+
+    private static String querySpecToSql(QuerySpec querySpec) {
+        List<Object> specs = querySpec.getSpecs();
+        StringBuilder query = new StringBuilder();
+        final int INDEX_OF_VALUE = 3;
+        for (Object spec : specs) {
+            if (specs.indexOf(spec) == INDEX_OF_VALUE) {
+                query.append("'")
+                        .append(spec)
+                        .append("'");
+            } else {
+                query.append(spec);
+                query.append(" ");
+            }
+        }
+        return query.toString();
     }
 }

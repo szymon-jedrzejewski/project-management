@@ -55,9 +55,8 @@ public class ProjectRepository {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
 
-        String value = "'" + name + "'";
-        qs.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, value));
-        logger.debug("Append query: " + qs.getQuery());
+        qs.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
+        logger.debug("Append query: " + qs.getSpecs());
 
         try {
             return persistence

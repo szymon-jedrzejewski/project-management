@@ -4,11 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuerySpec {
 
     private static final Logger logger = LogManager.getLogger(SqlPersistenceManager.class);
     private Class<?> tableName;
-    private String query = "";
+    private final List<Object> specs = new ArrayList<>();
 
     public QuerySpec() {
     }
@@ -25,22 +28,17 @@ public class QuerySpec {
         this.tableName = tableName;
     }
 
-    public String getQuery() {
-        return query;
+    public List<Object> getSpecs() {
+        return specs;
     }
 
-    private void tableNameToString(Class<?> tableName) {
-        if (tableName != null) {
-            query = tableName.getSimpleName().toLowerCase() + "s ";
-        }
-    }
     public void append(QueryOperator queryOperator, SearchCondition searchCondition) {
-        logger.debug("QuerySpec append query: " + query);
 
-        query += queryOperator.toString()
-                + " "
-                + searchCondition.getColumn()
-                + searchCondition.getOperator().toString()
-                + searchCondition.getValue();
+        specs.add(queryOperator.toString());
+        specs.add(searchCondition.getColumn());
+        specs.add(searchCondition.getOperator().toString());
+        specs.add(searchCondition.getValue());
+
+        logger.debug("Specs: " + specs);
     }
 }
