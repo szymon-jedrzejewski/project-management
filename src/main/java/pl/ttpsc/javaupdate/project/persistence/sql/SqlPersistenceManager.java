@@ -11,10 +11,7 @@ import pl.ttpsc.javaupdate.project.utility.SqlQueryUtility;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +33,8 @@ public class SqlPersistenceManager implements PersistenceManager {
         logger.debug("Generated query: " + query);
 
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
             connection.close();
             return null;
         } catch (SQLException e) {
@@ -55,8 +52,8 @@ public class SqlPersistenceManager implements PersistenceManager {
     public void delete(QuerySpec qs) {
         try {
             String query = SqlQueryUtility.generateDeleteQuery(qs);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
@@ -71,15 +68,10 @@ public class SqlPersistenceManager implements PersistenceManager {
         try {
             String query = SqlQueryUtility.createQueryOf(querySpec);
             logger.debug("Find query manager: " + query);
-
             List<Persistable> persistables = new ArrayList<>();
-
             Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
-
-            Statement statement = connection.createStatement();
-
-            ResultSet result = statement.executeQuery(query);
-
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet result = statement.executeQuery();
 
             while (result.next()) {
 
