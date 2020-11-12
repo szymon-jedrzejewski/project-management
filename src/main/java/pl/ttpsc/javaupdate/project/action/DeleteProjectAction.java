@@ -24,7 +24,8 @@ public class DeleteProjectAction implements Action {
 
     @Override
     public void execute() {
-        repository.delete(Integer.parseInt(view.getString("Enter project id u want delete: ")));
+        int id = Integer.parseInt(view.getString("Enter project id u want delete: "));
+        repository.delete(id);
     }
 
     @Override

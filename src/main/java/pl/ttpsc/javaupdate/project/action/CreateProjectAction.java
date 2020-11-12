@@ -27,9 +27,10 @@ public class CreateProjectAction implements Action {
     @Override
     public void execute() {
         try {
-            Project project = repository.create(new Project(view.getString("Enter name: "),
-                    view.getString("Enter description: "),
-                    Integer.parseInt(view.getString("Enter creator: "))));
+            String name = view.getString("Enter name: ");
+            String description = view.getString("Enter description: ");
+            int creator = Integer.parseInt(view.getString("Enter creator: "));
+            Project project = repository.create(new Project(name, description, creator));
 
             view.info("Project successfully created. Project id is: ");
         } catch (ProjectRepositoryException e) {
