@@ -43,7 +43,7 @@ public class ProjectRepository {
     }
 
     public Project findById(int id) throws ProjectRepositoryException{
-        final int FIRST_PROJECT = 1;
+        final int FIRST_PROJECT = 0;
         try {
             QuerySpec qs = new QuerySpec(Project.class);
             qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
