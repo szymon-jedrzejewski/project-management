@@ -63,33 +63,10 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public List<Persistable> find(QuerySpec querySpec) throws PersistenceException {
-
-
         try {
             String query = SqlQueryUtility.createQueryOf(querySpec);
             logger.debug("Find query manager: " + query);
-            List<Persistable> persistables = new ArrayList<>();
-            Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet result = statement.executeQuery();
-
-            while (result.next()) {
-
-                Persistable persistable = (Persistable) constructor.newInstance();
-                logger.debug("Created object: " + persistable);
-                Field[] fields = persistable.getClass().getDeclaredFields();
-
-                for (Field field : fields) {
-
-                    field.setAccessible(true);
-                    logger.debug("Column name: " + field.getName());
-                    logger.debug("Value: " + result.getObject(field.getName()));
-                    field.set(persistable, result.getObject(field.getName()));
-                }
-
-                persistables.add(persistable);
-            }
-
+            List<Persistable> persistables = resultSetToPersistable(querySpec, query);
             connection.close();
             logger.debug("Persistables: " + persistables.toString());
             logger.debug("Persistables size: " + persistables.size());
@@ -100,5 +77,30 @@ public class SqlPersistenceManager implements PersistenceManager {
         }
 
         throw new PersistenceException();
+    }
+
+    private List<Persistable> resultSetToPersistable(QuerySpec querySpec, String query) throws NoSuchMethodException, SQLException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        List<Persistable> persistables = new ArrayList<>();
+        Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet result = statement.executeQuery();
+
+        while (result.next()) {
+
+            Persistable persistable = (Persistable) constructor.newInstance();
+            logger.debug("Created object: " + persistable);
+            Field[] fields = persistable.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+
+                field.setAccessible(true);
+                logger.debug("Column name: " + field.getName());
+                logger.debug("Value: " + result.getObject(field.getName()));
+                field.set(persistable, result.getObject(field.getName()));
+            }
+
+            persistables.add(persistable);
+        }
+        return persistables;
     }
 }
