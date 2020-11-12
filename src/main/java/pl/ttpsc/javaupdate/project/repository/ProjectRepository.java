@@ -42,15 +42,16 @@ public class ProjectRepository {
         }
     }
 
-    public Project findById(int id) throws PersistenceManagerException{
+    public Project findById(int id) throws ProjectRepositoryException{
+        final int FIRST_PROJECT = 1;
         try {
             QuerySpec qs = new QuerySpec(Project.class);
             qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
-            return (Project)persistence.find(qs).get(0);
+            return (Project)persistence.find(qs).get(FIRST_PROJECT);
         } catch (PersistenceManagerException e) {
-            e.printStackTrace();
+            logger.error("PersistenceManagerException: " + e.getMessage());
         }
-        throw new PersistenceManagerException();
+        throw new ProjectRepositoryException();
     }
 
     public List<Project> findByName(String name) throws ProjectRepositoryException {
