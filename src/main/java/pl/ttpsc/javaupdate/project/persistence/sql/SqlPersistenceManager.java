@@ -66,9 +66,9 @@ public class SqlPersistenceManager implements PersistenceManager {
         try {
             String query = SqlQueryUtility.createQueryOf(querySpec);
             logger.debug("Find query manager: " + query);
-            List<Persistable> persistables = resultSetToPersistable(querySpec, query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            List<Persistable> persistables = resultSetToPersistable(statement, querySpec);
             connection.close();
-            logger.debug("Persistables: " + persistables.toString());
             logger.debug("Persistables size: " + persistables.size());
             return persistables;
         } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -79,11 +79,11 @@ public class SqlPersistenceManager implements PersistenceManager {
         throw new PersistenceException();
     }
 
-    private List<Persistable> resultSetToPersistable(QuerySpec querySpec, String query) throws NoSuchMethodException, SQLException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec) throws NoSuchMethodException, SQLException, InstantiationException, IllegalAccessException, InvocationTargetException {
+
         List<Persistable> persistables = new ArrayList<>();
         Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet result = statement.executeQuery();
+        ResultSet result = preparedStatement.executeQuery();
 
         while (result.next()) {
 
