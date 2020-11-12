@@ -34,26 +34,13 @@ public class QuerySpec {
             query = tableName.getSimpleName().toLowerCase() + "s ";
         }
     }
-
-    public void appendWhere(SearchCondition searchCondition) {
+    public void append(QueryOperator queryOperator, SearchCondition searchCondition) {
         logger.debug("QuerySpec append query: " + query);
-        if (!query.contains("WHERE")) {
-            query = "WHERE " + query;
-        }
-        query += searchCondition.getColumn()
+
+        query += queryOperator.toString()
+                + " "
+                + searchCondition.getColumn()
                 + searchCondition.getOperator().toString()
                 + searchCondition.getValue();
-    }
-
-    public void appendAnd() {
-        query += " AND ";
-    }
-
-    public void appendOr() {
-        query += " OR ";
-    }
-
-    public void appendNot() {
-        query += " NOT ";
     }
 }

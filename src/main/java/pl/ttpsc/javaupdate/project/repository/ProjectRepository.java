@@ -5,10 +5,7 @@ import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.PersistenceManagerException;
 import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
-import pl.ttpsc.javaupdate.project.persistence.Operator;
-import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
-import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
-import pl.ttpsc.javaupdate.project.persistence.SearchCondition;
+import pl.ttpsc.javaupdate.project.persistence.*;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
 import java.util.List;
@@ -35,7 +32,7 @@ public class ProjectRepository {
     public void delete(int id) {
         try {
             QuerySpec qs = new QuerySpec(Project.class);
-            qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
+            qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
             persistence.delete(qs);
         } catch (PersistenceManagerException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
@@ -46,7 +43,7 @@ public class ProjectRepository {
         final int FIRST_PROJECT = 0;
         try {
             QuerySpec qs = new QuerySpec(Project.class);
-            qs.appendWhere(new SearchCondition("id", Operator.EQUAL_TO, id));
+            qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
             return (Project)persistence.find(qs).get(FIRST_PROJECT);
         } catch (PersistenceManagerException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
@@ -59,7 +56,7 @@ public class ProjectRepository {
         qs.setTableName(Project.class);
 
         String value = "'" + name + "'";
-        qs.appendWhere(new SearchCondition("name", Operator.EQUAL_TO, value));
+        qs.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, value));
         logger.debug("Append query: " + qs.getQuery());
 
         try {
