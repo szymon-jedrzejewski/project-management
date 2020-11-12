@@ -16,11 +16,7 @@ public final class SqlQueryUtility {
     private SqlQueryUtility() {
     }
 
-    public static String extractTableName(Persistable persistable) {
-        return persistable.getClass().getSimpleName().toLowerCase() + "s ";
-    }
-
-    public static String generateFindQuery(QuerySpec querySpec) {
+    public static String createQueryOf(QuerySpec querySpec) {
         String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
         if (querySpec.getQuery() == null || querySpec.getQuery().isEmpty()) {
             logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
@@ -31,11 +27,15 @@ public final class SqlQueryUtility {
         return "SELECT * FROM " + tableName + "s " + querySpec.getQuery() + ";";
     }
 
-    public static String generateInsertQuery(Persistable persistable) {
+    public static String createQueryOf(Persistable persistable) {
         return "INSERT INTO "
                 + SqlQueryUtility.extractTableName(persistable)
                 + "(" + SqlQueryUtility.extractFieldsNames(persistable) + ") "
                 + "VALUES (" + SqlQueryUtility.extractFieldsValues(persistable) + ");";
+    }
+
+    public static String extractTableName(Persistable persistable) {
+        return persistable.getClass().getSimpleName().toLowerCase() + "s ";
     }
 
     public static String extractFieldsNames(Persistable persistable) {
@@ -79,8 +79,7 @@ public final class SqlQueryUtility {
                     }
 
                 } catch (IllegalAccessException e) {
-                    logger.error("Field not found");
-                    logger.error(e.getMessage());
+                    logger.error("IllegalAccessException: " + e.getMessage());
                 }
             }
         }
