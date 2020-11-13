@@ -39,6 +39,7 @@ public class ConsoleApplication {
             actions.add(new ShowProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new CreateProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new DeleteProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
+            actions.add(new ExitAction(connection, new ProjectConsoleView()));
 
             Action action = menu.choseAction(actions);
             action.execute();

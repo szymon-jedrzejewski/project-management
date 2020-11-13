@@ -92,10 +92,9 @@ public final class SqlQueryUtility {
         return fieldType.toLowerCase().contains(type.toLowerCase());
     }
 
-    public static String generateDeleteQuery(QuerySpec qs) {
-        logger.debug("Delete Query: " +
-                "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + querySpecToSql(qs));
-        return "DELETE FROM " + qs.getTableName().getSimpleName().toLowerCase() + "s " + querySpecToSql(qs);
+    public static String generateDeleteQuery(String tableName, int id) {
+        logger.debug("Delete Query: DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id );
+        return "DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id;
     }
 
     private static String querySpecToSql(QuerySpec querySpec) {

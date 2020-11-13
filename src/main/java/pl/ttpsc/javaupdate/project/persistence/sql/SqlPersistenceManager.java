@@ -35,7 +35,6 @@ public class SqlPersistenceManager implements PersistenceManager {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
-            connection.close();
             return null;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
@@ -49,12 +48,11 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public void delete(QuerySpec qs) {
+    public void delete(Class<?> clazz, int id) {
         try {
-            String query = SqlQueryUtility.generateDeleteQuery(qs);
+            String query = SqlQueryUtility.generateDeleteQuery(clazz.getSimpleName(), id);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
-            connection.close();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
             e.printStackTrace();
@@ -68,7 +66,6 @@ public class SqlPersistenceManager implements PersistenceManager {
             logger.debug("Find query manager: " + query);
             PreparedStatement statement = connection.prepareStatement(query);
             List<Persistable> persistables = resultSetToPersistable(statement, querySpec);
-            connection.close();
             logger.debug("Persistables size: " + persistables.size());
             return persistables;
         } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

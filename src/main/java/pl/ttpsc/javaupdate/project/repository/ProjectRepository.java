@@ -31,10 +31,11 @@ public class ProjectRepository {
 
     public void delete(int id) {
         try {
+            Project project = findById(id);
             QuerySpec qs = new QuerySpec(Project.class);
             qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
-            persistence.delete(qs);
-        } catch (PersistenceException e) {
+            persistence.delete(Project.class, project.getId());
+        } catch (PersistenceException | ProjectRepositoryException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
     }
