@@ -5,7 +5,7 @@
     <groupId>pl.ttpsc.javaupdate</groupId>
     <artifactId>project</artifactId>
     <version>4.1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>JavaUpdate - Project Management</name>
 
@@ -30,6 +30,16 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.18</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 </project>
