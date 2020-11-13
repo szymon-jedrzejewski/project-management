@@ -10,12 +10,12 @@ import pl.ttpsc.javaupdate.project.view.ProjectView;
 import java.util.Arrays;
 import java.util.List;
 
-public class ShowProjectsAction implements Action {
+public class ShowProjectAction implements Action {
 
     private ProjectView view;
     private ProjectRepository repository;
 
-    public ShowProjectsAction(ProjectView view, ProjectRepository repository) {
+    public ShowProjectAction(ProjectView view, ProjectRepository repository) {
         this.view = view;
         this.repository = repository;
     }
@@ -39,7 +39,7 @@ public class ShowProjectsAction implements Action {
 
     @Override
     public String getDisplayName() {
-        return "Show Projects";
+        return "Show Project";
     }
 
 }

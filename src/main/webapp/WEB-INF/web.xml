@@ -8,7 +8,7 @@
 
     <servlet>
         <servlet-name>MyServlet</servlet-name>
-        <servlet-class>pl.ttpsc.javaupdate.project.MyServlet</servlet-class>
+        <servlet-class>pl.ttpsc.javaupdate.project.WebApplication</servlet-class>
     </servlet>
 
     <servlet-mapping>

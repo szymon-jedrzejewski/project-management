@@ -36,7 +36,7 @@ public class ConsoleApplication {
             connection = DriverManager.getConnection(url, login, password);
             List<Action> actions = new ArrayList<>();
             actions.add(new ShowAllProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
-            actions.add(new ShowProjectsAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
+            actions.add(new ShowProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new CreateProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new DeleteProjectAction(new ProjectConsoleView(), new ProjectRepository(new SqlPersistenceManager(connection))));
             actions.add(new ExitAction(connection, new ProjectConsoleView()));
