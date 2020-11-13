@@ -1,7 +1,7 @@
 package pl.ttpsc.javaupdate.project.action;
 
 
-import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
+import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
@@ -26,7 +26,7 @@ public class ShowProjectsAction implements Action {
         List<Project> projects = null;
         try {
             projects = repository.findByName(projectName);
-        } catch (ProjectRepositoryException e) {
+        } catch (RepositoryException e) {
             e.printStackTrace();
         }
         view.display(projects);

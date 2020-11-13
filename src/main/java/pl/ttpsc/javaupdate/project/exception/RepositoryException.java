@@ -1,11 +1,11 @@
 package pl.ttpsc.javaupdate.project.exception;
 
-public class ProjectRepositoryException extends Exception{
+public class RepositoryException extends Exception{
 
-    public ProjectRepositoryException() {
+    public RepositoryException() {
     }
 
-    public ProjectRepositoryException(String message) {
+    public RepositoryException(String message) {
         super(message);
     }
 }

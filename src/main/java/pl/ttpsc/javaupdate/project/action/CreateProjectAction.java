@@ -1,6 +1,6 @@
 package pl.ttpsc.javaupdate.project.action;
 
-import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
+import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
@@ -33,7 +33,7 @@ public class CreateProjectAction implements Action {
             Project project = repository.create(new Project(name, description, creator));
 
             view.info("Project successfully created. Project id is: ");
-        } catch (ProjectRepositoryException e) {
+        } catch (RepositoryException e) {
             view.error("There was an error while adding project - project name already exists.");
         }
     }

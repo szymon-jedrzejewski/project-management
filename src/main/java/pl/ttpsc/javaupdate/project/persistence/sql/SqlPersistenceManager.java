@@ -62,7 +62,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     @Override
     public List<Persistable> find(QuerySpec querySpec) throws PersistenceException {
         try {
-            String query = SqlQueryUtility.createQueryOf(querySpec);
+            String query = SqlQueryUtility.findQueryOf(querySpec);
             logger.debug("Find query manager: " + query);
             PreparedStatement statement = connection.prepareStatement(query);
             List<Persistable> persistables = resultSetToPersistable(statement, querySpec);

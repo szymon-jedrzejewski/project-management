@@ -16,7 +16,7 @@ public final class SqlQueryUtility {
     private SqlQueryUtility() {
     }
 
-    public static String createQueryOf(QuerySpec querySpec) {
+    public static String findQueryOf(QuerySpec querySpec) {
         String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
             logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");

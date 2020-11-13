@@ -3,7 +3,7 @@ package pl.ttpsc.javaupdate.project.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.PersistenceException;
-import pl.ttpsc.javaupdate.project.exception.ProjectRepositoryException;
+import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.persistence.*;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
@@ -20,13 +20,13 @@ public class ProjectRepository {
         this.persistence = persistence;
     }
 
-    public Project create(Project project) throws ProjectRepositoryException {
+    public Project create(Project project) throws RepositoryException {
         try {
             return (Project) persistence.create(project);
         } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
-        throw new ProjectRepositoryException();
+        throw new RepositoryException();
     }
 
     public void delete(int id) {
@@ -35,12 +35,12 @@ public class ProjectRepository {
             QuerySpec qs = new QuerySpec(Project.class);
             qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
             persistence.delete(Project.class, project.getId());
-        } catch (PersistenceException | ProjectRepositoryException e) {
+        } catch (PersistenceException | RepositoryException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
     }
 
-    public Project findById(int id) throws ProjectRepositoryException{
+    public Project findById(int id) throws RepositoryException {
         final int FIRST_PROJECT = 0;
         try {
             QuerySpec qs = new QuerySpec(Project.class);
@@ -49,10 +49,10 @@ public class ProjectRepository {
         } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
-        throw new ProjectRepositoryException();
+        throw new RepositoryException();
     }
 
-    public List<Project> findByName(String name) throws ProjectRepositoryException {
+    public List<Project> findByName(String name) throws RepositoryException {
         QuerySpec qs = new QuerySpec();
         qs.setTableName(Project.class);
 
@@ -69,7 +69,7 @@ public class ProjectRepository {
         } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }
-        throw new ProjectRepositoryException();
+        throw new RepositoryException();
     }
 
     public List<Project> findAll() throws PersistenceException {
