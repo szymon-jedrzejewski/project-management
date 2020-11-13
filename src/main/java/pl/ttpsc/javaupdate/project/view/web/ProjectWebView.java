@@ -26,7 +26,7 @@ public class ProjectWebView implements ProjectView {
     public void display(Project project) {
         request.setAttribute("project", project);
         try {
-            request.getRequestDispatcher("/show_project.jsp").forward(request, response);
+            request.getRequestDispatcher("/showProject.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
             logger.error("Error during displaying project");
         }
@@ -36,7 +36,7 @@ public class ProjectWebView implements ProjectView {
     public void display(List<Project> projects) {
         request.setAttribute("projects", projects);
         try {
-            request.getRequestDispatcher("/show_projects.jsp").forward(request, response);
+            request.getRequestDispatcher("/showProjects.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
             logger.error("Error during displaying projects");
         }
