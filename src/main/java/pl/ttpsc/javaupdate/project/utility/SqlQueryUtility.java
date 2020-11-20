@@ -6,7 +6,12 @@ import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,5 +117,32 @@ public final class SqlQueryUtility {
             }
         }
         return query.toString();
+    }
+
+    public static List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec)
+            throws NoSuchMethodException, SQLException, InstantiationException,
+            IllegalAccessException, InvocationTargetException {
+
+        List<Persistable> persistables = new ArrayList<>();
+        Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
+        ResultSet result = preparedStatement.executeQuery();
+
+        while (result.next()) {
+
+            Persistable persistable = (Persistable) constructor.newInstance();
+            logger.debug("Created object: " + persistable);
+            Field[] fields = persistable.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+
+                field.setAccessible(true);
+                logger.debug("Column name: " + field.getName());
+                logger.debug("Value: " + result.getObject(field.getName()));
+                field.set(persistable, result.getObject(field.getName()));
+            }
+
+            persistables.add(persistable);
+        }
+        return persistables;
     }
 }

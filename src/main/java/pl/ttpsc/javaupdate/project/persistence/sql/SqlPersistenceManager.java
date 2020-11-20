@@ -44,7 +44,14 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public void update(Persistable persistable) {
+        String query = "";
+        logger.debug("Update query: " + query);
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage());
+        }
     }
 
     @Override
@@ -65,7 +72,7 @@ public class SqlPersistenceManager implements PersistenceManager {
             String query = SqlQueryUtility.findQueryOf(querySpec);
             logger.debug("Find query manager: " + query);
             PreparedStatement statement = connection.prepareStatement(query);
-            List<Persistable> persistables = resultSetToPersistable(statement, querySpec);
+            List<Persistable> persistables = SqlQueryUtility.resultSetToPersistable(statement, querySpec);
             logger.debug("Persistables size: " + persistables.size());
             return persistables;
         } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -74,30 +81,5 @@ public class SqlPersistenceManager implements PersistenceManager {
         }
 
         throw new PersistenceException();
-    }
-
-    private List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec) throws NoSuchMethodException, SQLException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-        List<Persistable> persistables = new ArrayList<>();
-        Constructor<?> constructor = querySpec.getTableName().getDeclaredConstructor();
-        ResultSet result = preparedStatement.executeQuery();
-
-        while (result.next()) {
-
-            Persistable persistable = (Persistable) constructor.newInstance();
-            logger.debug("Created object: " + persistable);
-            Field[] fields = persistable.getClass().getDeclaredFields();
-
-            for (Field field : fields) {
-
-                field.setAccessible(true);
-                logger.debug("Column name: " + field.getName());
-                logger.debug("Value: " + result.getObject(field.getName()));
-                field.set(persistable, result.getObject(field.getName()));
-            }
-
-            persistables.add(persistable);
-        }
-        return persistables;
     }
 }
