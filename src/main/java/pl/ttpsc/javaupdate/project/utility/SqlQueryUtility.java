@@ -2,6 +2,7 @@ package pl.ttpsc.javaupdate.project.utility;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.ttpsc.javaupdate.project.exception.SqlQueryUtilityException;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
@@ -98,7 +99,7 @@ public final class SqlQueryUtility {
     }
 
     public static String generateDeleteQuery(String tableName, int id) {
-        logger.debug("Delete Query: DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id );
+        logger.debug("Delete Query: DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id);
         return "DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id;
     }
 
@@ -144,5 +145,44 @@ public final class SqlQueryUtility {
             persistables.add(persistable);
         }
         return persistables;
+    }
+
+    public static String generateUpdateQuery(Persistable persistable) throws SqlQueryUtilityException {
+        try {
+            Field[] fields = persistable.getClass().getDeclaredFields();
+            List<String> params = new ArrayList<>();
+            String id = "";
+
+            for (Field field : fields) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                Object value = field.get(persistable);
+                if (fieldName.equals("id")) {
+                    id = String.valueOf(value);
+                }
+                String fieldTypeName = field.getType().getTypeName();
+
+                if (!fieldName.equals("id") && !fieldName.equals("creator")) {
+                    if (isFieldGivenType(fieldTypeName, "String")) {
+                        params.add(fieldName + "='" + value + "'");
+                    } else if (isFieldGivenType(fieldTypeName, "int")) {
+                        params.add(fieldName + "=" + value);
+                    } else if (isFieldGivenType(fieldTypeName, "boolean")) {
+                        params.add(fieldName + "=" + String.valueOf(value).toUpperCase());
+                    }
+                }
+            }
+
+            logger.debug("Update query: " + "UPDATE " + extractTableName(persistable)
+                    + " SET " + String.join(", ", params)
+                    + " WHERE id=" + id + ";");
+
+            return "UPDATE " + extractTableName(persistable)
+                    + " SET " + String.join(", ", params)
+                    + " WHERE id=" + id + ";";
+        } catch(IllegalAccessException e){
+            e.printStackTrace();
+        }
+        throw new SqlQueryUtilityException();
     }
 }

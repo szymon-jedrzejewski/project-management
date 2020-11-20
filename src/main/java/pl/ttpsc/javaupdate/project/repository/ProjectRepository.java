@@ -29,6 +29,14 @@ public class ProjectRepository {
         throw new RepositoryException();
     }
 
+    public void update(Project project) {
+        try {
+            persistence.update(project);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void delete(int id) {
         try {
             Project project = findById(id);

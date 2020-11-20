@@ -9,29 +9,29 @@ public class Document implements Persistable {
     private String description;
     private String topic;
     private String content;
-    private int creator;
     private int project;
+    private int creator;
 
     public Document() {
     }
 
-    public Document(String title, String description, String topic, String content, int creator, int project) {
+    public Document(String title, String description, String topic, String content, int project, int creator) {
         this.title = title;
         this.description = description;
         this.topic = topic;
         this.content = content;
-        this.creator = creator;
         this.project = project;
+        this.creator = creator;
     }
 
-    public Document(int id, String title, String description, String topic, String content, int creator, int project) {
+    public Document(int id, String title, String description, String topic, String content, int project, int creator) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.topic = topic;
         this.content = content;
-        this.creator = creator;
         this.project = project;
+        this.creator = creator;
     }
 
     public int getId() {
@@ -98,8 +98,8 @@ public class Document implements Persistable {
                 ", description='" + description + '\'' +
                 ", topic='" + topic + '\'' +
                 ", content='" + content + '\'' +
-                ", creator=" + creator +
                 ", project=" + project +
+                ", creator=" + creator +
                 '}';
     }
 }

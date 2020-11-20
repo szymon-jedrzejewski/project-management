@@ -3,6 +3,7 @@ package pl.ttpsc.javaupdate.project.persistence.sql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.PersistenceException;
+import pl.ttpsc.javaupdate.project.exception.SqlQueryUtilityException;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
@@ -44,12 +45,12 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public void update(Persistable persistable) {
-        String query = "";
-        logger.debug("Update query: " + query);
 
         try {
+            String query = SqlQueryUtility.generateUpdateQuery(persistable);
             PreparedStatement statement = connection.prepareStatement(query);
-        } catch (SQLException e) {
+            statement.executeUpdate();
+        } catch (SQLException | SqlQueryUtilityException e) {
             logger.error("SQLException: " + e.getMessage());
         }
     }
