@@ -35,8 +35,9 @@ public class UpdateProjectAction implements Action {
             String description = view.getString("Please enter new description: ");
             project.setDescription(description);
             repository.update(project);
+            view.info("Project updated successfully!");
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            view.error("Cannot update project");
         }
     }
 

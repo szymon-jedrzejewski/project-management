@@ -58,11 +58,11 @@ public class DocumentRepository {
         }
     }
 
-    public List<Document> findByName(String name) throws RepositoryException{
+    public List<Document> findByTitle(String title) throws RepositoryException{
         try {
             QuerySpec qs = new QuerySpec();
             qs.setTableName(Document.class);
-            qs.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
+            qs.append(QueryOperator.WHERE, new SearchCondition("title", Operator.EQUAL_TO, title));
             return persistence.find(qs)
                     .stream()
                     .map(persistable -> (Document) persistable)

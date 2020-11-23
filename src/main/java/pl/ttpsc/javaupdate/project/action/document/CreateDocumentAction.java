@@ -7,6 +7,7 @@ import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.DocumentRepository;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
+import pl.ttpsc.javaupdate.project.view.DocumentView;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.Collections;
@@ -14,10 +15,10 @@ import java.util.List;
 
 public class CreateDocumentAction implements Action {
 
-    private ProjectView view;
+    private DocumentView view;
     private DocumentRepository repository;
 
-    public CreateDocumentAction(ProjectView view, DocumentRepository repository) {
+    public CreateDocumentAction(DocumentView view, DocumentRepository repository) {
         this.view = view;
         this.repository = repository;
     }

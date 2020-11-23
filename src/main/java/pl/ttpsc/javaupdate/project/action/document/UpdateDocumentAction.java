@@ -49,11 +49,10 @@ public class UpdateDocumentAction implements Action {
             int project = Integer.parseInt(view.getString("Please enter new project: "));
             document.setProject(project);
 
-            int creator = Integer.parseInt(view.getString("Please enter new project: "));
-            document.setCreator(creator);
             repository.update(document);
+            view.info("Document updated successfully!");
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            view.error("Document updated successfully!");
         }
     }
 
