@@ -1,30 +1,32 @@
-package pl.ttpsc.javaupdate.project.action;
+package pl.ttpsc.javaupdate.project.action.document;
 
+import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.model.Role;
+import pl.ttpsc.javaupdate.project.repository.DocumentRepository;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.Collections;
 import java.util.List;
 
-public class DeleteProjectAction implements Action {
+public class DeleteDocumentAction implements Action {
 
     private ProjectView view;
-    private ProjectRepository repository;
+    private DocumentRepository repository;
 
-    public DeleteProjectAction(ProjectView view, ProjectRepository repository) {
+    public DeleteDocumentAction(ProjectView view, DocumentRepository repository) {
         this.view = view;
         this.repository = repository;
     }
 
     @Override
     public String getDisplayName() {
-        return "Delete Project";
+        return "Delete Document";
     }
 
     @Override
     public void execute() {
-        int id = Integer.parseInt(view.getString("Enter project id u want delete: "));
+        int id = Integer.parseInt(view.getString("Enter project id you want delete: "));
         repository.delete(id);
     }
 

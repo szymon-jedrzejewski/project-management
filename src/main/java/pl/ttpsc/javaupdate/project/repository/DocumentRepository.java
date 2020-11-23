@@ -5,8 +5,12 @@ import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.PersistenceException;
 import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Document;
-import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
+import pl.ttpsc.javaupdate.project.persistence.*;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
+
+import javax.print.Doc;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DocumentRepository {
 
@@ -17,9 +21,65 @@ public class DocumentRepository {
         this.persistence = persistence;
     }
 
-    public Document create (Document document) throws RepositoryException {
+    public Document create(Document document) throws RepositoryException {
         try {
-            return (Document)persistence.create(document);
+            return (Document) persistence.create(document);
+        } catch (PersistenceException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+        throw new RepositoryException();
+    }
+
+    public List<Document> findAll() throws RepositoryException {
+        try {
+            return persistence.find(new QuerySpec(Document.class))
+                    .stream()
+                    .map(persistable -> (Document) persistable)
+                    .collect(Collectors.toList());
+        } catch (PersistenceException e) {
+            logger.error("PersistenceException: " + e.getMessage());
+        }
+        throw new RepositoryException();
+    }
+
+    public void update(Document document) {
+        try {
+            persistence.update(document);
+        } catch (PersistenceException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+    }
+
+    public void delete(int id) {
+        try {
+            persistence.delete(Document.class, id);
+        } catch (PersistenceException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+    }
+
+    public List<Document> findByName(String name) throws RepositoryException{
+        try {
+            QuerySpec qs = new QuerySpec();
+            qs.setTableName(Document.class);
+            qs.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
+            return persistence.find(qs)
+                    .stream()
+                    .map(persistable -> (Document) persistable)
+                    .collect(Collectors.toList());
+        } catch (PersistenceException e) {
+            logger.error("PersistenceManagerException: " + e.getMessage());
+        }
+        throw new RepositoryException();
+    }
+
+    public Document findById(int id) throws RepositoryException {
+        try {
+            QuerySpec qs = new QuerySpec();
+            qs.setTableName(Document.class);
+            qs.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
+            final int FIRST_ELEMENT = 0;
+            return (Document)persistence.find(qs).get(FIRST_ELEMENT);
         } catch (PersistenceException e) {
             logger.error("PersistenceManagerException: " + e.getMessage());
         }

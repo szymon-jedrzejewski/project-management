@@ -1,7 +1,8 @@
-package pl.ttpsc.javaupdate.project.action;
+package pl.ttpsc.javaupdate.project.action.project;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExitAction implements Action{
+public class ExitAction implements Action {
 
     private static final Logger logger = LogManager.getLogger(SqlPersistenceManager.class);
     private Connection connection;

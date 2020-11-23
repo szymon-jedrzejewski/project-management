@@ -1,6 +1,6 @@
-package pl.ttpsc.javaupdate.project.action;
+package pl.ttpsc.javaupdate.project.action.project;
 
-import pl.ttpsc.javaupdate.project.exception.PersistenceException;
+import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
@@ -8,28 +8,25 @@ import pl.ttpsc.javaupdate.project.view.ProjectView;
 import java.util.Collections;
 import java.util.List;
 
-public class ShowAllProjectsAction implements Action {
+public class DeleteProjectAction implements Action {
 
     private ProjectView view;
     private ProjectRepository repository;
 
-    public ShowAllProjectsAction(ProjectView view, ProjectRepository repository) {
+    public DeleteProjectAction(ProjectView view, ProjectRepository repository) {
         this.view = view;
         this.repository = repository;
     }
 
     @Override
     public String getDisplayName() {
-        return "Show All Projects";
+        return "Delete Project";
     }
 
     @Override
     public void execute() {
-        try {
-            view.display(repository.findAll());
-        } catch (PersistenceException e) {
-            view.error("Cannot find projects");
-        }
+        int id = Integer.parseInt(view.getString("Enter project id u want delete: "));
+        repository.delete(id);
     }
 
     @Override

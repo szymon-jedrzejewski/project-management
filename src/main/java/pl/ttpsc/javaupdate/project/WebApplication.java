@@ -3,7 +3,7 @@ package pl.ttpsc.javaupdate.project;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.action.Action;
-import pl.ttpsc.javaupdate.project.action.ShowAllProjectsAction;
+import pl.ttpsc.javaupdate.project.action.project.ShowAllProjectsAction;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.web.ProjectWebView;

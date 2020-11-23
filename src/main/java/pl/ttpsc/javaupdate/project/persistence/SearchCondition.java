@@ -6,9 +6,6 @@ public class SearchCondition {
     private Operator operator;
     private Object value;
 
-    public SearchCondition() {
-    }
-
     public SearchCondition(String column, Operator operator, Object value) {
         this.column = column;
         this.operator = operator;

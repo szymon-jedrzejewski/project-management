@@ -1,5 +1,6 @@
-package pl.ttpsc.javaupdate.project.action;
+package pl.ttpsc.javaupdate.project.action.project;
 
+import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
