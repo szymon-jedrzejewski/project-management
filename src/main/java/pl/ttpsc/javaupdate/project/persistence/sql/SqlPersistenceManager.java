@@ -9,11 +9,10 @@ import pl.ttpsc.javaupdate.project.persistence.PersistenceManager;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
 import pl.ttpsc.javaupdate.project.utility.SqlQueryUtility;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SqlPersistenceManager implements PersistenceManager {
@@ -58,7 +57,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     @Override
     public void delete(Class<?> clazz, int id) {
         try {
-            String query = SqlQueryUtility.generateDeleteQuery(clazz.getSimpleName(), id);
+            String query = SqlQueryUtility.generateDeleteQuery(clazz, id);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException e) {

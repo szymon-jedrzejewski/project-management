@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import pl.ttpsc.javaupdate.project.exception.SqlQueryUtilityException;
 import pl.ttpsc.javaupdate.project.persistence.Persistable;
 import pl.ttpsc.javaupdate.project.persistence.QuerySpec;
+import pl.ttpsc.javaupdate.project.persistence.SearchValue;
 import pl.ttpsc.javaupdate.project.persistence.sql.SqlPersistenceManager;
 
 import java.lang.reflect.Constructor;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class SqlQueryUtility {
@@ -40,11 +42,11 @@ public final class SqlQueryUtility {
                 + "VALUES (" + SqlQueryUtility.extractFieldsValues(persistable) + ");";
     }
 
-    public static String extractTableName(Persistable persistable) {
+    private static String extractTableName(Persistable persistable) {
         return persistable.getClass().getSimpleName().toLowerCase() + "s ";
     }
 
-    public static String extractFieldsNames(Persistable persistable) {
+    private static String extractFieldsNames(Persistable persistable) {
         Field[] fields = persistable.getClass().getDeclaredFields();
         List<String> names = new ArrayList<>();
 
@@ -58,7 +60,7 @@ public final class SqlQueryUtility {
         return String.join(", ", names);
     }
 
-    public static String extractFieldsValues(Persistable persistable) {
+    private static String extractFieldsValues(Persistable persistable) {
         Field[] fields = persistable.getClass().getDeclaredFields();
         StringBuilder query = new StringBuilder();
 
@@ -82,6 +84,12 @@ public final class SqlQueryUtility {
                     } else if (isFieldGivenType(fieldTypeName, "int")) {
                         query.append(object)
                                 .append(", ");
+                    } else if (isFieldGivenType(fieldTypeName, "Character[]")) {
+                        logger.debug("password: " + Arrays.toString((Character[])object));
+                        query.append("'")
+                                .append(charArrayToString((Character[])object))
+                                .append("'")
+                                .append(", ");
                     }
 
                 } catch (IllegalAccessException e) {
@@ -94,30 +102,40 @@ public final class SqlQueryUtility {
         return query.deleteCharAt(query.lastIndexOf(",")).toString().trim();
     }
 
+    private static String charArrayToString(Character[] characters) {
+        StringBuilder result = new StringBuilder();
+        for (Character character : characters) {
+            result.append(character);
+        }
+        return result.toString();
+    }
+
     private static boolean isFieldGivenType(String fieldType, String type) {
         return fieldType.toLowerCase().contains(type.toLowerCase());
     }
 
-    public static String generateDeleteQuery(String tableName, int id) {
-        logger.debug("Delete Query: DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id);
-        return "DELETE FROM " + tableName.toLowerCase() + "s WHERE id=" + id;
+    public static String generateDeleteQuery(Class<?> table, int id) {
+        String tableName = table.getSimpleName().toLowerCase();
+        logger.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
+        return "DELETE FROM " + tableName + "s WHERE id=" + id + ";";
     }
 
     private static String querySpecToSql(QuerySpec querySpec) {
         List<Object> specs = querySpec.getSpecs();
-        StringBuilder query = new StringBuilder();
-        final int INDEX_OF_VALUE = 3;
+        List<String> values = new ArrayList<>();
         for (Object spec : specs) {
-            if (specs.indexOf(spec) == INDEX_OF_VALUE) {
-                query.append("'")
-                        .append(spec)
-                        .append("'");
+            if (spec instanceof SearchValue) {
+                if (((SearchValue) spec).getType().equals(String.class)) {
+                    values.add("'" + ((SearchValue) spec).getValue() + "'");
+                } else {
+                    values.add(((SearchValue) spec).getValue().toString());
+                }
             } else {
-                query.append(spec);
-                query.append(" ");
+                values.add(spec.toString());
             }
         }
-        return query.toString();
+        logger.debug("QuerySpecToSql list: " + specs.toString());
+        return String.join(" ", values);
     }
 
     public static List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec)
@@ -180,7 +198,7 @@ public final class SqlQueryUtility {
             return "UPDATE " + extractTableName(persistable)
                     + " SET " + String.join(", ", params)
                     + " WHERE id=" + id + ";";
-        } catch(IllegalAccessException e){
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
         throw new SqlQueryUtilityException();

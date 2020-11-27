@@ -37,7 +37,7 @@ public class QuerySpec {
         specs.add(queryOperator.toString());
         specs.add(searchCondition.getColumn());
         specs.add(searchCondition.getOperator().toString());
-        specs.add(searchCondition.getValue());
+        specs.add(new SearchValue(searchCondition.getValue().getClass(), searchCondition.getValue()));
 
         logger.debug("Specs: " + specs);
     }
