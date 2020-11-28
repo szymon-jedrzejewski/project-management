@@ -24,7 +24,7 @@ public final class SqlQueryUtility {
     private SqlQueryUtility() {
     }
 
-    public static String findQueryOf(QuerySpec querySpec) {
+    public static String generateFindQuery(QuerySpec querySpec) {
         String tableName = querySpec.getTableName().getSimpleName().toLowerCase();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
             logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
@@ -35,7 +35,7 @@ public final class SqlQueryUtility {
         return "SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";";
     }
 
-    public static String createQueryOf(Persistable persistable) {
+    public static String generateCreateQuery(Persistable persistable) {
         return "INSERT INTO "
                 + SqlQueryUtility.extractTableName(persistable)
                 + "(" + SqlQueryUtility.extractFieldsNames(persistable) + ") "
@@ -192,11 +192,11 @@ public final class SqlQueryUtility {
             }
 
             logger.debug("Update query: " + "UPDATE " + extractTableName(persistable)
-                    + " SET " + String.join(", ", params)
+                    + "SET " + String.join(", ", params)
                     + " WHERE id=" + id + ";");
 
             return "UPDATE " + extractTableName(persistable)
-                    + " SET " + String.join(", ", params)
+                    + "SET " + String.join(", ", params)
                     + " WHERE id=" + id + ";";
         } catch (IllegalAccessException e) {
             e.printStackTrace();

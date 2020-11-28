@@ -29,7 +29,7 @@ public class SqlPersistenceManager implements PersistenceManager {
 
     @Override
     public Persistable create(Persistable persistable) throws PersistenceException {
-        String query = SqlQueryUtility.createQueryOf(persistable);
+        String query = SqlQueryUtility.generateCreateQuery(persistable);
         logger.debug("Generated query: " + query);
 
         try {
@@ -69,7 +69,7 @@ public class SqlPersistenceManager implements PersistenceManager {
     @Override
     public List<Persistable> find(QuerySpec querySpec) throws PersistenceException {
         try {
-            String query = SqlQueryUtility.findQueryOf(querySpec);
+            String query = SqlQueryUtility.generateFindQuery(querySpec);
             logger.debug("Find query manager: " + query);
             PreparedStatement statement = connection.prepareStatement(query);
             List<Persistable> persistables = SqlQueryUtility.resultSetToPersistable(statement, querySpec);
