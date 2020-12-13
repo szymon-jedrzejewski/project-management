@@ -4,14 +4,8 @@ import pl.ttpsc.javaupdate.project.model.Project;
 
 import java.util.List;
 
-public interface ProjectView {
+public interface ProjectView extends View {
     void display(List<Project> projects);
 
     void display(Project project);
-
-    String getString(String message);
-
-    void info(String msg);
-
-    void error(String msg);
 }

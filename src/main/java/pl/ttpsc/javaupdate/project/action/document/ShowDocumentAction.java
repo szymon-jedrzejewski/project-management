@@ -24,13 +24,12 @@ public class ShowDocumentAction implements Action {
     @Override
     public void execute() {
         String documentName = view.getString("Please enter project title: ");
-        List<Document> documents = null;
         try {
-            documents = repository.findByTitle(documentName);
+            List<Document> documents = repository.findByTitle(documentName);
+            view.display(documents);
         } catch (RepositoryException e) {
             e.printStackTrace();
         }
-        view.display(documents);
     }
 
     @Override

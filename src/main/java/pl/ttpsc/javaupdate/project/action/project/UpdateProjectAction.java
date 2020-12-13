@@ -28,7 +28,7 @@ public class UpdateProjectAction implements Action {
     @Override
     public void execute() {
         try {
-            int id = Integer.parseInt(view.getString("Enter id of document you want edit: "));
+            int id = view.getInt("Enter id of document you want edit: ");
             Project project = repository.findById(id);
             String name = view.getString("Please enter new name: ");
             project.setName(name);

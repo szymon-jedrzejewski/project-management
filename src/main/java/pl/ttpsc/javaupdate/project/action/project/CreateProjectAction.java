@@ -30,7 +30,7 @@ public class CreateProjectAction implements Action {
         try {
             String name = view.getString("Enter name: ");
             String description = view.getString("Enter description: ");
-            int creator = Integer.parseInt(view.getString("Enter creator: "));
+            int creator = view.getInt("Enter creator: ");
             Project project = repository.create(new Project(name, description, creator));
 
             view.info("Project successfully created. Project id is: ");

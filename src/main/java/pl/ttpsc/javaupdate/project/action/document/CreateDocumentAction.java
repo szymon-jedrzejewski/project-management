@@ -3,12 +3,9 @@ package pl.ttpsc.javaupdate.project.action.document;
 import pl.ttpsc.javaupdate.project.action.Action;
 import pl.ttpsc.javaupdate.project.exception.RepositoryException;
 import pl.ttpsc.javaupdate.project.model.Document;
-import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.model.Role;
 import pl.ttpsc.javaupdate.project.repository.DocumentRepository;
-import pl.ttpsc.javaupdate.project.repository.ProjectRepository;
 import pl.ttpsc.javaupdate.project.view.DocumentView;
-import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +32,8 @@ public class CreateDocumentAction implements Action {
             String description = view.getString("Enter description: ");
             String topic = view.getString("Enter topic: ");
             String content = view.getString("Enter content: ");
-            int project = Integer.parseInt(view.getString("Enter project: "));
-            int creator = Integer.parseInt(view.getString("Enter creator: "));
+            int project = view.getInt("Enter project: ");
+            int creator = view.getInt("Enter creator: ");
             Document document = repository.create(new Document(title, description,topic, content, project, creator));
 
             view.info("Project successfully created. Project id is: ");

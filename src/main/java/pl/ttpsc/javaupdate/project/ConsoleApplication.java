@@ -20,7 +20,5 @@ public class ConsoleApplication {
             ConsoleMenu menu = new ConsoleMenu();
             Action action = menu.choseAction(config.getActionList());
             action.execute();
-            System.out.println("Application start failed.");
-
     }
 }

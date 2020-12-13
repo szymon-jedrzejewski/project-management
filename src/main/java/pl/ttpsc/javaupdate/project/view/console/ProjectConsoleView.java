@@ -4,7 +4,6 @@ import pl.ttpsc.javaupdate.project.model.Project;
 import pl.ttpsc.javaupdate.project.view.ProjectView;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ProjectConsoleView implements ProjectView {
 
@@ -27,19 +26,5 @@ public class ProjectConsoleView implements ProjectView {
         }
     }
 
-    @Override
-    public String getString(String message) {
-        System.out.print(message);
-        return new Scanner(System.in).nextLine();
-    }
 
-    @Override
-    public void info(String msg) {
-        System.out.println(msg);
-    }
-
-    @Override
-    public void error(String msg) {
-        System.out.println(msg);
-    }
 }
